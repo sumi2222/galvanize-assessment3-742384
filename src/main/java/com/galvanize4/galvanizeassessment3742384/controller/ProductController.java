@@ -2,6 +2,8 @@ package com.galvanize4.galvanizeassessment3742384.controller;
 
 import com.galvanize4.galvanizeassessment3742384.entity.Product;
 import com.galvanize4.galvanizeassessment3742384.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
 
     @Autowired
@@ -18,8 +20,8 @@ public class ProductController {
     }
 
     @GetMapping("/search/price/{price}")
-    public Iterable<Product> searchByPrice(@PathVariable Double price) {
-        return productService.searchByPrice(price);
+    public Iterable<Product> searchByPrice(@PathVariable String price) {
+        return productService.searchByPrice(Double.parseDouble(price));
     }
     @GetMapping("/search/color/{color}")
     public Iterable<Product> searchByColor(@PathVariable String color) {
@@ -32,12 +34,12 @@ public class ProductController {
     }
 
     @GetMapping("/search/ascending")
-    public Iterable<Product> searchBypriceAscending() {
+    public Iterable<Product> searchByPriceAscending() {
         return productService.sortByPriceASCE();
     }
 
     @GetMapping("/search/descending")
-    public Iterable<Product> searchBypriceDescending() {
+    public Iterable<Product> searchByPriceDescending() {
         return productService.sortByPriceDESC();
     }
 }
